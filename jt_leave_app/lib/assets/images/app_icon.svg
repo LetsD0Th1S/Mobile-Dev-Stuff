@@ -1,0 +1,15 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <!-- Left large segment -->
+  <path d="M64 8
+       A56 56 0 0 0 64 120
+       Z" fill="#FFE680"></path>
+
+  <!-- Right small segment -->
+  <path d="M64 64
+       L120 64
+       A56 56 0 0 1 64 120
+       Z" fill="#FFF1A8"></path>
+
+  <!-- Divider line -->
+  <line x1="64" y1="8" x2="64" y2="120" stroke="#F2C94C" stroke-width="6" stroke-linecap="round"></line>
+</svg>
