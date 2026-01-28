@@ -49,6 +49,14 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
+  void _setDrawerScreen(String identifier) {
+    if (identifier == 'filters'){
+
+    } else {
+      Navigator.of(context).pop(); // Already in meals screen, so we simply need to pop it
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +72,7 @@ class _TabsScreenState extends State<TabsScreen> {
       appBar: AppBar(
         title: Text(activePageTitle),
       ),
-      endDrawer: MainDrawer(),
+      endDrawer: MainDrawer(onSelectScreen: _setDrawerScreen,),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {_selectPage(index);},
