@@ -10,6 +10,8 @@ class MyAppBar extends StatelessWidget {
           toolbarHeight: 70,
           backgroundColor: Colors.deepPurpleAccent,
           foregroundColor: Colors.white70,
+          elevation: 3.0,
+          shadowColor: Colors.grey,
           titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, fontFamily: 'Times New Roman'),
           title: Center(
             child: const Text('Testing')),

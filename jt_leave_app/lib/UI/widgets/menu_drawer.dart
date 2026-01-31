@@ -6,6 +6,7 @@ class MenuDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
       child: const Text('Hello'),
     );
   }

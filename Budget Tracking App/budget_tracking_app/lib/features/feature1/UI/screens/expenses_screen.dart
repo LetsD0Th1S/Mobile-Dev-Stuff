@@ -1,66 +1,52 @@
+import 'package:budget_tracking_app/features/feature1/UI/logic/expense_list_providers.dart';
+import 'package:budget_tracking_app/features/feature1/UI/widgets/expense_card.dart';
 import 'package:flutter/material.dart';
-import '../../data/models/expense_model.dart';
-import '../widgets/custom_expenses_text_fields.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MyExpenses extends StatefulWidget {
-  const MyExpenses({super.key});
-
-  @override
-  State<MyExpenses> createState() => _MyExpensesState();
-}
-
-class _MyExpensesState extends State<MyExpenses> {
-  final List<Expenses> _expenses = [];
-
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _amountController = TextEditingController();
-
-
-  void _addExpense(){
-    final String name = _nameController.text;
-    final double? amount = double.tryParse(_amountController.text);
-
-    if (name.isEmpty || amount == null || amount <= 0) return;
-
-    setState(() {
-      _expenses.add(
-        Expenses(
-          name: name, 
-          amount: amount, 
-          date: DateTime.now(),
-          ),
-      );
-    });
-
-    _nameController.clear();
-    _amountController.clear();
-  }
-
-  double get totalSpent {
-    return _expenses.fold(
-      0.0, 
-      (sum, expense) => sum + expense.amount,
-      );
-  }
+class ExpensesScreen extends ConsumerWidget {
+  const ExpensesScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blueGrey,
-      body: Column(
-        children: [
-          Padding(padding: EdgeInsetsGeometry.all(20), 
-          child: const Text('Please enter all your expenses below',
-          textAlign: TextAlign.center, 
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final items = ref.watch(expenseProvider);
+
+    return Column(
+      children: [
+        const Text("Please add your expenses below."),
+        const SizedBox(height: 8),
+
+        Expanded(
+          child: ListView.builder(
+            itemCount: items.length + 1,
+            itemBuilder: (context, index) {
+              if (index == items.length) {
+                return Center(
+                  child: ElevatedButton(
+                    onPressed: ref.read(expenseProvider.notifier).add,
+                    child: const Text('Add Expense'),
+                  ),
+                );
+              }
+
+              final item = items[index];
+              return ExpenseCard(
+                item: item,
+                name: (n) =>
+                    ref.read(expenseProvider.notifier).changeName(index, n),
+                amount: (a) =>
+                    ref.read(expenseProvider.notifier).changeAmount(index, a),
+                recurs: (_) =>
+                    ref.read(expenseProvider.notifier).setRecur(index),
+                filter: (f) => ref
+                    .read(expenseProvider.notifier)
+                    .setFilterChange(index, f),
+                onDelete: () =>
+                    ref.read(expenseProvider.notifier).remove(index),
+              );
+            },
           ),
-          ),
-            ExpensesFields(),
-            ExpensesFields(),      
-          ElevatedButton(onPressed: _addExpense, child: const Icon(Icons.add))
-        ],
-      ),
-      floatingActionButton: ElevatedButton(onPressed: (){}, child: const Text('Save')),
+        ),
+      ],
     );
   }
 }

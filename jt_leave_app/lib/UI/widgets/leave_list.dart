@@ -1,43 +1,48 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:jt_leave_app/data/leave_data.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jt_leave_app/UI/widgets/balance_grid_items_container.dart';
+import 'package:jt_leave_app/providers/firebase_stream_provider.dart';
+import 'package:intl/intl.dart';
 
-class LeaveList extends StatefulWidget {
+
+class LeaveList extends ConsumerWidget {
   const LeaveList({super.key});
 
   @override
-  State<LeaveList> createState() => _LeaveListState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final balances = ref.watch(balanceListProvider);
+    final dateFormatter = DateFormat.yMd();
 
-class _LeaveListState extends State<LeaveList> {
-  final List<Map<String, Object>> leave_data = leaveBalances.where((value) => value.keys.contains('leave')).toList();
-  
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 300,
-      child: Column(
-        children: 
-          leave_data.map((data){
-            print(data);
-                  return Container(
-                    padding: const EdgeInsets.all(12.0),
-                    decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Theme.of(context).scaffoldBackgroundColor))
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        
-                    ],),
-                  );
-                }
-                ).toList(),
-              
-            ),
-    );
+    // Extracting stream data from firebase provider
+    return balances.when(
+        error: (e, _) => Center(child: Text('Error encountered: \n $e')),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        data: (balances) {
+          if (balances.isEmpty) {
+            return const Center(child: Text('No leave data loaded.'));
           }
 
+          return GridView.count(
+            childAspectRatio: 2,
+            scrollDirection: Axis.vertical,
+            mainAxisSpacing: 2,
+            shrinkWrap: true,
+            crossAxisCount: 3,
+            children: [
+              
+              for (int i = 0; i < balances.length; i++)
+                ...[BalanceContainer(
+                  color: Colors.white,
+                  text: Text(balances[i].leaveName.toString(), textAlign: .center,)),
+                  BalanceContainer(
+                    color: Colors.white,
+                    text: Text((dateFormatter.format(balances[i].validTo)).toString(), textAlign: .center,)),
+                  BalanceContainer(
+                    color: Colors.white,
+                    text: Text(balances[i].entitlement.toString(), textAlign: .center,)),],
+            ],
+          );
+        },
+      );
   }
+}
