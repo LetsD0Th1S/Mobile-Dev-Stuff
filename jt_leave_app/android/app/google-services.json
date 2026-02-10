@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "682227031618",
+    "firebase_url": "https://jtleaveimporttesting-default-rtdb.firebaseio.com",
+    "project_id": "jtleaveimporttesting",
+    "storage_bucket": "jtleaveimporttesting.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:682227031618:android:d6f501663c3606e3a457db",
+        "android_client_info": {
+          "package_name": "com.example.jt_leave_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArpcscSauAX5Ukt0QndEG6is1A-QZgtT8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
