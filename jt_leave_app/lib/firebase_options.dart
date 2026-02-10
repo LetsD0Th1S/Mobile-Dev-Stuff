@@ -2,7 +2,9 @@
 // ignore_for_file: type=lint
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
+
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -41,7 +43,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: const String.fromEnvironment('Firebase_Key'),
+    apiKey: const String.fromEnvironment('API-KEY-GENERIC'),
     appId: '1:682227031618:web:d70257a62b8b117aa457db',
     messagingSenderId: '682227031618',
     projectId: 'jtleaveimporttesting',
@@ -52,7 +54,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyArpcscSauAX5Ukt0QndEG6is1A-QZgtT8',
+    apiKey: const String.fromEnvironment('API-KEY-ANDROID'),
     appId: '1:682227031618:android:d6f501663c3606e3a457db',
     messagingSenderId: '682227031618',
     projectId: 'jtleaveimporttesting',
@@ -61,7 +63,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAE4sdZXj9CiapOh0Gsm6a_ZR9uIfM-bms',
+    apiKey: const String.fromEnvironment('API-KEY-GENERIC'),
     appId: '1:682227031618:ios:36272c2c4d29a914a457db',
     messagingSenderId: '682227031618',
     projectId: 'jtleaveimporttesting',
@@ -71,7 +73,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAE4sdZXj9CiapOh0Gsm6a_ZR9uIfM-bms',
+    apiKey: const String.fromEnvironment('API-KEY-GENERIC'),
     appId: '1:682227031618:ios:36272c2c4d29a914a457db',
     messagingSenderId: '682227031618',
     projectId: 'jtleaveimporttesting',
@@ -81,7 +83,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyABzIxJwK21K93NkNtHrgUhdVVrVuEsjZE',
+    apiKey: const String.fromEnvironment('API-KEY-WINDOWS'),
     appId: '1:682227031618:web:88caa77d35616bc6a457db',
     messagingSenderId: '682227031618',
     projectId: 'jtleaveimporttesting',
