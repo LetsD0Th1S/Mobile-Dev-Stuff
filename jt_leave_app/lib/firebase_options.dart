@@ -41,7 +41,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyABzIxJwK21K93NkNtHrgUhdVVrVuEsjZE',
+    apiKey: const String.fromEnvironment('Firebase_Key'),
     appId: '1:682227031618:web:d70257a62b8b117aa457db',
     messagingSenderId: '682227031618',
     projectId: 'jtleaveimporttesting',
