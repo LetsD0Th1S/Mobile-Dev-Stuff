@@ -17,6 +17,12 @@ class IncomeCard extends StatelessWidget {
   final ValueChanged<Filter> onFilterChanged;
   final VoidCallback onDelete;
 
+  // void _validateName(){
+    
+  //   print(onNameChanged);
+  //   onNameChanged;
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -28,15 +34,27 @@ class IncomeCard extends StatelessWidget {
           mainAxisAlignment: .spaceEvenly,
           children: [
             Expanded(
-              child: TextField(
+              child: TextFormField(
                 decoration: InputDecoration(label: const Text('Name')),
+                validator: (value) {
+                  if (value == null || value.isEmpty || value == ''){
+                    return "Please enter a valid name";
+                  }
+                  return null;
+                },
                 onChanged: onNameChanged,
               ),
             ),
             Expanded(
-              child: TextField(
+              child: TextFormField(
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(label: const Text('Amount')),
+                validator: (value) {
+                  if (value == null || value.isEmpty || double.tryParse(value) == null){
+                    return "Please enter a valid amount";
+                  }
+                  return null;
+                },
                 onChanged: onValueChanged,
               ),
             ),

@@ -3,12 +3,12 @@ import 'package:budget_tracking_app/features/feature1/UI/widgets/income_card.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class IncomeScreen extends ConsumerWidget {
+class IncomeScreen extends ConsumerStatefulWidget {
   const IncomeScreen({super.key});
 
-  //   @override
-  //   State<IncomeScreen> createState() => __IncomeScreenState();
-  // }
+    @override
+    ConsumerState<IncomeScreen> createState() => _IncomeScreenState();
+  }
 
   // class __IncomeScreenState extends State<IncomeScreen> {
   //   // TextEditingController nameControls = TextEditingController();
@@ -44,53 +44,64 @@ class IncomeScreen extends ConsumerWidget {
   //   List<Widget> items = [
   //   ];
 
+   final incomeKey = GlobalKey<FormState>(); // Don't place inside build!!! Otherwise it won't persist!
+
+class _IncomeScreenState extends ConsumerState<IncomeScreen>{
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final items = ref.watch(incomeProvider);
     final total = ref.watch(totalIncomeProvider);
+   
 
-    return Column(
-      children: [
-        const Text("Please add your income below:", textAlign: .center),
-        const SizedBox(height: 8),
-
-        Expanded(
-          child: ListView.builder(
-            itemCount: items.length + 1 , // + 1 for the add button :)
-            itemBuilder: (context, index) {
-              if (index == items.length){
-                return Center(
-                    child: ElevatedButton(
-                      onPressed: () => ref.read(incomeProvider.notifier).add(),
-                      child: const Text('Add Income'),
-                  ),
+    return Form(
+      key: incomeKey,
+      child: Column(
+        children: [
+          const Text("Please add your income below:", textAlign: .center),
+          const SizedBox(height: 8),
+      
+          Expanded(
+            child: ListView.builder(
+              itemCount: items.length + 1 , // + 1 for the add button :)
+              itemBuilder: (context, index) {
+                if (index == items.length){
+                  return Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (incomeKey.currentState!.validate()){
+                            ref.read(incomeProvider.notifier).add();
+                          } 
+                        }, 
+                        child: const Text('Add Income'),
+                    ),
+                  );
+                }
+            
+                final item = items[index];
+      
+                return IncomeCard(
+                  item: item,
+                  onNameChanged: (n) =>
+                      ref.read(incomeProvider.notifier).updateName(index, n),
+                  onValueChanged: (v) =>
+                      ref.read(incomeProvider.notifier).updateValue(index, double.tryParse(v) ?? 0),
+                  onFilterChanged: (f) =>
+                      ref.read(incomeProvider.notifier).updateFilter(index, f),
+                  onDelete: () => ref.read(incomeProvider.notifier).remove(index),
                 );
-              }
-          
-              final item = items[index];
-
-              return IncomeCard(
-                item: item,
-                onNameChanged: (n) =>
-                    ref.read(incomeProvider.notifier).updateName(index, n),
-                onValueChanged: (v) =>
-                    ref.read(incomeProvider.notifier).updateValue(index, double.parse(v)),
-                onFilterChanged: (f) =>
-                    ref.read(incomeProvider.notifier).updateFilter(index, f),
-                onDelete: () => ref.read(incomeProvider.notifier).remove(index),
-              );
-            },
+              },
+            ),
           ),
-        ),
-        SafeArea(
-          child: Container(
-            padding: .only(right: 80),
-            width: double.infinity,
-            height: 30,
-            color: Colors.deepPurpleAccent,
-            child: Text('Total Income: R ${total.toStringAsFixed(2)}', textAlign: .end,)),
-        )
-      ],
+          SafeArea(
+            child: Container(
+              padding: .only(right: 80),
+              width: double.infinity,
+              height: 30,
+              color: Colors.deepPurpleAccent,
+              child: Text('Total Income: R ${total.toStringAsFixed(2)}', textAlign: .end,)),
+          )
+        ],
+      ),
     );
   }
 }
