@@ -1,62 +1,63 @@
-import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:jt_leave_app/UI/widgets/file_picker.dart';
 import 'package:jt_leave_app/providers/leave_submit_provider.dart';
+import 'dart:developer' as dev;
 
 class SubmitScreen extends ConsumerWidget {
   const SubmitScreen({super.key});
 
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
-  var formatter = DateFormat('yyyy-MM-dd');
-  var submitDate = DateTime.now();
-  DateTime? _startDate;
-  DateTime? _endDate;
-
-    final submission = ref.watch(submitProvider);
+    final submitter = ref.watch(submitProvider);
     final leaves = ref.watch(userIntentProvider);
 
-// Future<DateTimeRange<DateTime>?>
-void submitDateRange() async {
-    var currentDate = DateTime.now();
-    var endDate = DateTime(currentDate.year + 1);
-    final dates = await showDateRangePicker(
-      context: context,
-      firstDate: currentDate,
-      lastDate: endDate,
-      helpText: 'Please select the date range',
-    );
-    if (dates != null){
-      _startDate = dates.start;
-      _endDate = dates.end;
-      ref.read(submitProvider.notifier).getDates(submitDate, dates.start, dates.end);
-      dev.log(submission.toString());
-      // return dates;
-    }
-}
+    var formatter = DateFormat('yyyy-MM-dd');
+    var submitDate = DateTime.now();
+    DateTime? startDate;
+    DateTime? endDate;
 
+    // Future<DateTimeRange<DateTime>?>
+    void submitDateRange() async {
+      var currentDate = DateTime.now();
+      var untilDate = DateTime(currentDate.year + 1);
+      final dates = await showDateRangePicker(
+        context: context,
+        firstDate: currentDate,
+        lastDate: untilDate,
+        helpText: 'Please select the date range',
+      );
+      if (dates != null) {
+        startDate = dates.start;
+        endDate = dates.end;
+        ref
+            .read(submitProvider.notifier)
+            .setDates(submitDate, dates.start, dates.end);
+        // dev.log(submission.toString());
+        // return dates;
+      }
+    }
 
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
                 const Text('Select your leave to submit below:'),
                 const SizedBox(height: 10),
-                DropdownMenu( 
-                  
-                  onSelected: (s){
+                DropdownMenu(
+                  onSelected: (s) {
                     dev.log(s.toString());
-                    return ref.read(submitProvider.notifier).getType(s.toString());
-                    },
+                    return ref
+                        .read(submitProvider.notifier)
+                        .getType(s.toString(), 1);
+                  },
                   width: 200,
                   label: const Text(
                     'Select leave',
@@ -67,17 +68,15 @@ void submitDateRange() async {
                       const Color.fromARGB(255, 210, 209, 210),
                     ),
                   ),
-                  dropdownMenuEntries: 
-                  leaves.maybeWhen(data: (item) => item
-                  .map((val){
-                    return DropdownMenuEntry(value: val!['leave'], label: val['leave']);
-                  }).toList(), 
-                  orElse: ()=> [])
-                  //  [
-                    // DropdownMenuEntry(value: ValueKey, label: 'Annual'),
-                    // DropdownMenuEntry(value: ValueKey, label: 'Sick Paid'),
-                    // DropdownMenuEntry(value: ValueKey, label: 'Maternity'),
-                  // ],
+                  dropdownMenuEntries: leaves.maybeWhen(
+                    data: (item) => item.map((val) {
+                      return DropdownMenuEntry(
+                        value: val!['leave'],
+                        label: val['leave'],
+                      );
+                    }).toList(),
+                    orElse: () => [],
+                  ),
                 ),
               ],
             ),
@@ -117,12 +116,13 @@ void submitDateRange() async {
                           color: Colors.green[500],
                         ),
                       ),
-                      if (_startDate != null && _endDate != null)
-                        Text(textAlign: .center,
-                          'From: ${formatter.format(_startDate!)} | Until: ${formatter.format(_endDate!)}',
+                      if (startDate != null && endDate != null)
+                        Text(
+                          textAlign: .center,
+                          'From: ${formatter.format(startDate!)} | Until: ${formatter.format(endDate!)}',
                         )
                       else
-                        Text(textAlign: .center,'Select a date range.'),
+                        Text(textAlign: .center, 'Select a date range.'),
                     ],
                   ),
                   Divider(
@@ -130,12 +130,12 @@ void submitDateRange() async {
                     endIndent: 150,
                   ),
                   FileSelector(),
-                  if (_endDate != null && _startDate != null)
+                  if (endDate != null && startDate != null)
                     Text(
-                      'Number of days: ${(_endDate!.difference(_startDate!).inDays) + 1}',
+                      'Number of days: ${(endDate!.difference(startDate!).inDays) + 1}',
                     ),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (ref.watch(submitProvider).isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -145,6 +145,12 @@ void submitDateRange() async {
                           ),
                         );
                       } else {
+                        
+                      //ToDo: Store data of submission locally, and then access from History screen.
+                      final leaveBox = await Hive.openBox('leave');
+                      leaveBox.put('name', submitter['leaveType']);
+                      leaveBox.put('submitted', submitter['submitted']);
+                      dev.log(leaveBox.values.toString());
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: const Text('Info submitted...')),
                         );

@@ -61,7 +61,7 @@ class ExpenseCard extends StatelessWidget {
                 IconButton(onPressed: onDelete, icon: Icon(Icons.delete)),
               ],
             ),
-            if (item.isRecurring == false) Container(width: 10, height: 10,),
+            if (item.isRecurring == false) SizedBox(width: 10, height: 10,),
           ],
         ),
       ),

@@ -25,14 +25,15 @@ class SubmitProvider extends Notifier<Map<String, dynamic>>{
       return {};
     }  
 
-  void getType(String name){
+  void getType(String name, int leaveCode){
     state = {
       ...state,
+      'code': leaveCode,
       'leaveType':name
     };
   }
 
-    void getDates(DateTime submit, DateTime start, DateTime end){
+    void setDates(DateTime submit, DateTime start, DateTime end){
     state = {
       ...state,
       'submitted': submit,

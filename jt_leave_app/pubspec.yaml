@@ -4,9 +4,10 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.10.7
+  sdk: ">= 3.10.0 <4.0.0"
 
 dependencies:
+  
   cloud_firestore: ^6.1.2
   file_picker: ^10.3.10
   firebase_admin: ^0.3.1
@@ -16,13 +17,19 @@ dependencies:
     sdk: flutter
   flutter_launcher_icons: ^0.14.4
   flutter_riverpod: ^3.2.1
+  hive_ce: ^2.19.3
+  hive_ce_flutter: ^2.3.4
   intl: ^0.20.2
+
   open_app_file: ^4.0.4
+  path_provider: ^2.1.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  hive_ce_generator: ^1.11.1
+  build_runner: ^2.11.1
 
 flutter:
   uses-material-design: true

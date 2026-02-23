@@ -49,7 +49,7 @@ class _ExpensesFields extends State<ExpensesFields> {
                 final double? floatVal = double.tryParse(value);
                 if (floatVal != null){
                   addAmountsToTotal();
-                  print(totalExpenses);
+                  // print(totalExpenses);
                 }
               },
               decoration: InputDecoration(

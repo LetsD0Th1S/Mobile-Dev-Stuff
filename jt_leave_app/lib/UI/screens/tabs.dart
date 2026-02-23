@@ -12,7 +12,7 @@ class TabsScreen extends ConsumerWidget {
 
 
 
-  static final screensList = [
+  static final screensList = const[
     SubmitScreen(),
     HomeScreen(theCode: '100'),
     HistoryScreen(),
@@ -25,14 +25,14 @@ class TabsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kTextTabBarHeight),
+        preferredSize: const Size.fromHeight(kTextTabBarHeight),
         child: CustomAppBar(
           selectedItem: firstCode
         ),
       ),
       endDrawer: Container(
-        margin: EdgeInsets.only(top: kToolbarHeight + 22),
-        child: MenuDrawer(),
+        margin: const .only(top: kToolbarHeight + 22),
+        child: const MenuDrawer(),
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(

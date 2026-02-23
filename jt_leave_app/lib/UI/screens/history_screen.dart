@@ -1,35 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jt_leave_app/providers/leave_submit_provider.dart';
+import 'dart:developer' as dev;
 
-class HistoryScreen extends StatefulWidget {
+class HistoryScreen extends ConsumerWidget {
   const HistoryScreen({super.key});
 
-  @override
-  State<HistoryScreen> createState() => _HistoryScreenState();
-}
 
-class _HistoryScreenState extends State<HistoryScreen> {
-  final List<Map<String, dynamic>> _submitted = [
-    {
-      "leave_name": "Annual",
-    "taken": "2",
-    "submitted": "2026-01-29"
-    }
-  ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+      final submitted = ref.watch(submitProvider);
+      dev.log(submitted.toString());
     return Column(
-        children: _submitted.map((value){
-          return Card(
-            child:Row(
-              mainAxisAlignment: .spaceEvenly,
-              children: [
-                Text(value["leave_name"]),
-                Text(value["taken"]),
-                Text(value["submitted"])
-              ],
-            ),
-          );},).toList(),
+        children: [],
+        // submitted.map((item.value){
+        //   return Card(
+        //     margin: .all(10),
+        //     child:Row(
+        //       mainAxisAlignment: .spaceEvenly,
+        //       children: [
+        //         Text(value["submitted"]),
+        //         Text(value["start"]),
+        //         Text(value["end"]),
+        //       ],
+        //     ),
+        //   );},).toList(),
     );
   }
 }
