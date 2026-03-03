@@ -5,31 +5,32 @@ final kthemeScheme = ThemeData(fontFamily: 'Arial').copyWith(
   colorScheme: ColorScheme.fromSeed(
     seedColor: Colors.grey,
     primaryContainer: const Color.fromARGB(255, 144, 198, 103),
-    secondaryContainer: const Color.fromARGB(255, 117, 194, 144),   
-    ),
+    secondaryContainer: const Color.fromARGB(255, 117, 194, 144),
+  ),
   brightness: Brightness.light,
   scaffoldBackgroundColor: Colors.white,
   navigationBarTheme: NavigationBarThemeData().copyWith(
     backgroundColor: Colors.transparent,
-    labelTextStyle: WidgetStateProperty.all(const TextStyle(color: Colors.grey)),
+    labelTextStyle: WidgetStateProperty.all(
+      const TextStyle(color: Colors.grey),
+    ),
   ),
   primaryColor: Color.fromARGB(255, 200, 200, 200),
   appBarTheme: AppBarThemeData().copyWith(
     backgroundColor: const Color.fromARGB(255, 247, 247, 176),
     shadowColor: Colors.black,
-    elevation: 4.0 // Adds shadow elevation ; must be greater than 0
+    elevation: 4.0, // Adds shadow elevation ; must be greater than 0
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
-    
     style: ButtonStyle(
       backgroundColor: WidgetStatePropertyAll(Colors.green),
       foregroundColor: WidgetStatePropertyAll(Colors.white),
-      )
+    ),
   ),
   textTheme: TextTheme().copyWith(
     bodyLarge: TextStyle(
       fontWeight: FontWeight.bold,
-      fontSize: 20,
+      fontSize: 18,
       color: Colors.black,
     ),
     titleLarge: TextStyle(
@@ -39,14 +40,12 @@ final kthemeScheme = ThemeData(fontFamily: 'Arial').copyWith(
     ),
     bodyMedium: TextStyle(
       fontWeight: FontWeight.normal,
-      fontSize: 18,
+      fontSize: 14,
       color: Colors.black,
     ),
     bodySmall: TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
   ),
 );
-
-
 
 // Dark mode theme varialble ---------------------------------------
 final kDarkThemeScheme = ThemeData().copyWith(

@@ -13,10 +13,12 @@ class JtLeaveHomescreenContainer extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: const .symmetric(horizontal: 20.0, vertical: 30),
-            child: Text('JT Leave Management', style: Theme.of(context).textTheme.titleLarge!),
-          )
-          
+            padding: const .symmetric(horizontal: 20.0, vertical: 20),
+            child: Text(
+              'JT Leave Management',
+              style: Theme.of(context).textTheme.titleLarge!,
+            ),
+          ),
         ],
       ),
     );

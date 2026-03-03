@@ -1,16 +1,18 @@
+import 'package:isar_community/isar.dart';
 
-enum SubmitStatus {
-  pending,
-  done
-}
+part 'history_item.g.dart';
 
+// Annotation for a Isar collection
+@collection
 class HistoryItem {
+  Id id = Isar.autoIncrement;
   final int leaveCode;
   final String name;
   final DateTime submittedDate;
   final DateTime fromDate;
   final DateTime toDate;
   final int numOfDays;
+  @enumerated
   final SubmitStatus status;
 
   HistoryItem({
@@ -20,6 +22,8 @@ class HistoryItem {
     required this.fromDate,
     required this.toDate,
     required this.numOfDays,
-    required this.status
+    this.status = SubmitStatus.pending,
   });
 }
+
+enum SubmitStatus { pending, done }
