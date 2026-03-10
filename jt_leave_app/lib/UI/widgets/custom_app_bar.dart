@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -10,17 +8,27 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        leading: Image.asset('lib/assets/images/jt_leave_icon_test.png',),
-        title: Center(
-          child: selectedItem == 0
-              ? const Text('Submit Leave')
-              : selectedItem == 1
-              ? const Text('Leave Balances')
-              : const Text('History'),
+      leading: Container(
+        margin: .all(2),
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(36, 5, 5, 5),
+          shape: .circle,
         ),
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-        titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-      );
+        child: Image.asset(
+          'lib/assets/images/jt_leave_icon_test.png',
+          height: 16,
+          width: 16,
+        ),
+      ),
+      title: Center(
+        child: selectedItem == 0
+            ? const Text('Submit Leave')
+            : selectedItem == 1
+            ? const Text('Leave Balances')
+            : const Text('History'),
+      ),
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+      titleTextStyle: Theme.of(context).textTheme.bodyLarge,
+    );
   }
 }
-

@@ -17,7 +17,7 @@ final kthemeScheme = ThemeData(fontFamily: 'Arial').copyWith(
   ),
   primaryColor: Color.fromARGB(255, 200, 200, 200),
   appBarTheme: AppBarThemeData().copyWith(
-    backgroundColor: const Color.fromARGB(255, 247, 247, 176),
+    backgroundColor: const Color.fromARGB(255, 242, 242, 241),
     shadowColor: Colors.black,
     elevation: 4.0, // Adds shadow elevation ; must be greater than 0
   ),

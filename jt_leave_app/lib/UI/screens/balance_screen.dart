@@ -4,9 +4,10 @@ import 'package:jt_leave_app/UI/widgets/jt_leave_homescreen_container.dart';
 import 'package:jt_leave_app/UI/widgets/leave_list.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key, required this.theCode});
+  const HomeScreen({super.key, required this.theCode, required this.name});
 
   final String theCode;
+  final String name;
   // final navBarHeight = kToolbarHeight;
 
   @override
@@ -24,10 +25,7 @@ class HomeScreen extends StatelessWidget {
             color: Colors.grey,
           ),
         ),
-        Text(
-          'Name of peep',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-        ),
+        Text(name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
         Container(
           height: 20,
           decoration: BoxDecoration(

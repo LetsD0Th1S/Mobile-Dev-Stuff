@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -17,16 +18,17 @@ class _SubmitScreenState extends ConsumerState<SubmitScreen> {
   DateTime? startDate;
   DateTime? endDate;
   var formatter = DateFormat('yyyy-MM-dd');
+  var numOfDays = 0;
 
   @override
   Widget build(BuildContext context) {
     final submitter = ref.watch(submitProvider);
     final leaves = ref.watch(userIntentProvider);
-
     var submitDate = DateTime.now();
 
     // Future<DateTimeRange<DateTime>?>
     void submitDateRange() async {
+      numOfDays = 0;
       var currentDate = DateTime.now();
       var untilDate = DateTime(currentDate.year + 1);
       final dates = await showDateRangePicker(
@@ -41,18 +43,27 @@ class _SubmitScreenState extends ConsumerState<SubmitScreen> {
         ref
             .read(submitProvider.notifier)
             .setDates(submitDate, dates.start, dates.end);
-        // dev.log(submission.toString());
-        // return dates;
+        var counter = startDate;
+        if (startDate != null && endDate != null) {
+          while (counter!.isBefore(endDate!) ||
+              counter.isAtSameMomentAs(endDate!)) {
+            if (counter.weekday != DateTime.saturday &&
+                counter.weekday != DateTime.sunday) {
+              numOfDays += 1;
+            }
+            counter = counter.add(const Duration(days: 1));
+          }
+        }
       }
     }
 
-    return Scaffold(
-      body: Column(
+    return Center(
+      child: Column(
         crossAxisAlignment: .center,
         children: [
           const SizedBox(height: 30),
           const Text('Please select your leave to submit below:'),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           DropdownMenu(
             onSelected: (s) {
               dev.log(s.toString());
@@ -83,21 +94,29 @@ class _SubmitScreenState extends ConsumerState<SubmitScreen> {
             ),
           ),
           const SizedBox(height: 20),
-          IconButton(
-            onPressed: submitDateRange,
-            hoverColor: Colors.black,
-            icon: Icon(Icons.date_range, color: Colors.green[500]),
-          ),
           if (startDate == null || endDate == null)
-            const Text('Select a date range')
+            ListTile(
+              tileColor: .fromARGB(200, 200, 200, 200),
+              titleAlignment: .center,
+              leading: Icon(Icons.date_range),
+              title: const Text('Select a date range'),
+              onTap: submitDateRange,
+            )
           else ...[
-            Text(
-              'From: ${formatter.format(startDate!)} | Until: ${formatter.format(endDate!)}',
-            ),
-            Text(
-              'Number of days: ${(endDate!.difference(startDate!).inDays) + 1}',
+            ListTile(
+              titleAlignment: .center,
+              leading: Icon(Icons.date_range_outlined),
+              title: Text(
+                'From: ${formatter.format(startDate!)} \nUntil: ${formatter.format(endDate!)}',
+                style: TextStyle(fontSize: 14),
+              ),
+              onTap: submitDateRange,
             ),
           ],
+          const SizedBox(height: 20),
+          if (endDate != null && startDate != null)
+            Text('Number of days: ${numOfDays == 0 ? "0" : numOfDays}'),
+          const SizedBox(height: 20),
           FileSelector(),
           ElevatedButton(
             onPressed: () async {

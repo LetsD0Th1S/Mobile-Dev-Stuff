@@ -1,3 +1,5 @@
+import 'dart:developer' as dev;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jt_leave_app/UI/screens/history_screen.dart';
@@ -5,20 +7,22 @@ import 'package:jt_leave_app/UI/screens/balance_screen.dart';
 import 'package:jt_leave_app/UI/screens/submit_screen.dart';
 import 'package:jt_leave_app/UI/widgets/custom_app_bar.dart';
 import 'package:jt_leave_app/UI/widgets/menu_drawer.dart';
+import 'package:jt_leave_app/providers/firebase_stream_provider.dart';
 import 'package:jt_leave_app/providers/tabs_provider.dart';
 
 class TabsScreen extends ConsumerWidget {
   const TabsScreen({super.key});
 
-  static final screensList = const [
-    SubmitScreen(),
-    HomeScreen(theCode: '100'),
-    HistoryScreen(),
-  ];
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final firstCode = ref.watch(tabsProvider);
+    final nameOfEmp = ref.watch(nameProvider);
+
+    final screensList = [
+      SubmitScreen(),
+      HomeScreen(theCode: '100', name: nameOfEmp),
+      HistoryScreen(),
+    ];
 
     return Scaffold(
       appBar: PreferredSize(

@@ -1,29 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jt_leave_app/models/leave_balance_item.dart';
+import 'package:jt_leave_app/models/balance_item.dart';
 
-final activateCodeProvider = NotifierProvider<ActivateProvider, String>(ActivateProvider.new);
+final activateCodeProvider = NotifierProvider<ActivateProvider, String>(
+  ActivateProvider.new,
+);
 
 class ActivateProvider extends Notifier<String> {
-  
   @override
   String build() {
     return '100';
   }
 
-  void code(String giveCode){
-      state = giveCode;
+  void code(String giveCode) {
+    state = giveCode;
   }
 }
 
 final callBalanceStream =
     StreamProvider<DocumentSnapshot<Map<String, dynamic>>>((ref) {
       final codePassed = ref.watch(activateCodeProvider);
-      
-          return FirebaseFirestore.instance
+
+      return FirebaseFirestore.instance
           .collection('employees')
           .doc(codePassed)
-          .snapshots();   
+          .snapshots();
     });
 
 final balanceListProvider = Provider<AsyncValue<List<BalanceItem>>>((ref) {
@@ -45,4 +46,17 @@ final balanceListProvider = Provider<AsyncValue<List<BalanceItem>>>((ref) {
       );
     }).toList();
   });
+});
+
+final nameProvider = Provider<String>((ref) {
+  final balanceSync = ref.watch(callBalanceStream);
+  String returnName = 'No name';
+  balanceSync.whenData((data) {
+    final results = data.data();
+
+    if (results != null) {
+      returnName = "${results['firstName']} ${results["lastName"]}";
+    }
+  });
+  return returnName;
 });
