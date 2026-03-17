@@ -7,7 +7,7 @@ import 'package:jt_leave_app/UI/screens/balance_screen.dart';
 import 'package:jt_leave_app/UI/screens/submit_screen.dart';
 import 'package:jt_leave_app/UI/widgets/custom_app_bar.dart';
 import 'package:jt_leave_app/UI/widgets/menu_drawer.dart';
-import 'package:jt_leave_app/providers/firebase_stream_provider.dart';
+import 'package:jt_leave_app/providers/supabase_stream_provider.dart';
 import 'package:jt_leave_app/providers/tabs_provider.dart';
 
 class TabsScreen extends ConsumerWidget {
@@ -67,7 +67,7 @@ class TabsScreen extends ConsumerWidget {
           ),
         ),
       ),
-      body: screensList[firstCode],
+      body: SizedBox.expand(child: screensList[firstCode]),
     );
   }
 }

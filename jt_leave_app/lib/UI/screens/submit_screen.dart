@@ -1,9 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:jt_leave_app/UI/widgets/file_picker.dart';
 import 'package:jt_leave_app/models/history_item.dart';
+import 'package:jt_leave_app/providers/isar_providers.dart';
 import 'package:jt_leave_app/providers/leave_submit_provider.dart';
 import 'dart:developer' as dev;
 
@@ -23,9 +23,22 @@ class _SubmitScreenState extends ConsumerState<SubmitScreen> {
   @override
   Widget build(BuildContext context) {
     final submitter = ref.watch(submitProvider);
-    final leaves = ref.watch(userIntentProvider);
-    var submitDate = DateTime.now();
+    final initialItems = ref.watch(userIntentProvider);
+    final leaveItems = initialItems.maybeWhen(
+      data: (items) {
+        final map = <String, String>{};
 
+        for (var item in items) {
+          map[item!['key'].toString()] = item['leave'];
+        }
+
+        return map.entries
+            .map((item) => {'code': item.key, 'name': item.value})
+            .toList();
+      },
+      orElse: () => <Map<String, String>>[],
+    );
+    var submitDate = DateTime.now();
     // Future<DateTimeRange<DateTime>?>
     void submitDateRange() async {
       numOfDays = 0;
@@ -40,9 +53,6 @@ class _SubmitScreenState extends ConsumerState<SubmitScreen> {
       if (dates != null) {
         startDate = dates.start;
         endDate = dates.end;
-        ref
-            .read(submitProvider.notifier)
-            .setDates(submitDate, dates.start, dates.end);
         var counter = startDate;
         if (startDate != null && endDate != null) {
           while (counter!.isBefore(endDate!) ||
@@ -57,40 +67,47 @@ class _SubmitScreenState extends ConsumerState<SubmitScreen> {
       }
     }
 
-    return Center(
+    return Container(
+      alignment: .topCenter,
+      width: double.infinity,
       child: Column(
         crossAxisAlignment: .center,
         children: [
           const SizedBox(height: 30),
           const Text('Please select your leave to submit below:'),
           const SizedBox(height: 20),
-          DropdownMenu(
-            onSelected: (s) {
-              dev.log(s.toString());
-              return ref
-                  .read(submitProvider.notifier)
-                  .getType(
-                    s.toString(),
-                    1,
-                  ); //ToDo: replace 1 with an actual code for the Leave Type selected.
-            },
-            textStyle: Theme.of(
-              context,
-            ).textTheme.bodyMedium!.copyWith(fontWeight: .bold),
-            label: const Text('Leave Type', style: TextStyle(fontSize: 16)),
-            menuStyle: MenuStyle(
-              backgroundColor: WidgetStatePropertyAll(
-                const Color.fromARGB(255, 255, 254, 255),
-              ),
-            ),
-            dropdownMenuEntries: leaves.maybeWhen(
-              data: (item) => item.map((val) {
-                return DropdownMenuEntry(
-                  value: val!['leave'],
-                  label: val['leave'],
+          SizedBox(
+            width: 280,
+            child: DropdownMenu(
+              onSelected: (code) {
+                final selected = leaveItems.firstWhere(
+                  (item) => item['code'] == code,
                 );
-              }).toList(),
-              orElse: () => [],
+                dev.log("$code ${selected['name']}");
+                return ref
+                    .read(submitProvider.notifier)
+                    .getType(
+                      selected['name']!,
+                      int.parse(code!),
+                    ); //ToDo: replace 1 with an actual code for the Leave Type selected.
+              },
+              textStyle: Theme.of(
+                context,
+              ).textTheme.bodyMedium!.copyWith(fontWeight: .bold),
+              label: const Text('Leave Type', style: TextStyle(fontSize: 16)),
+              menuStyle: MenuStyle(
+                backgroundColor: WidgetStatePropertyAll(
+                  const Color.fromARGB(255, 255, 254, 255),
+                ),
+              ),
+              dropdownMenuEntries: [
+                ...leaveItems.map((item) {
+                  return DropdownMenuEntry(
+                    value: item['code'],
+                    label: item['name']!,
+                  );
+                }),
+              ],
             ),
           ),
           const SizedBox(height: 20),
@@ -134,14 +151,34 @@ class _SubmitScreenState extends ConsumerState<SubmitScreen> {
                 final newItem = HistoryItem(
                   leaveCode: submitter['code'],
                   name: submitter['leaveType'],
-                  submittedDate: submitter['submitted'],
-                  fromDate: submitter['start'],
-                  toDate: submitter['end'],
-                  numOfDays: 2,
+                  submittedDate: submitDate,
+                  fromDate: startDate,
+                  toDate: endDate,
+                  numOfDays: numOfDays,
+                  status: SubmitStatus.pending,
                 );
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: const Text('Info submitted...')),
-                );
+                // Store Riverpod state
+                ref
+                    .read(submitProvider.notifier)
+                    .setDates(
+                      newItem.submittedDate,
+                      newItem.fromDate,
+                      newItem.toDate,
+                      newItem.numOfDays,
+                    );
+                try {
+                  await ref.read(submitActionProvider.notifier).submit();
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: const Text('Info saved locally...')),
+                  );
+                } catch (e) {
+                  dev.log(e.toString());
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(e.toString())));
+                }
+                dev.log(submitter.toString());
               }
             },
             child: const Text('Submit', style: TextStyle(fontSize: 20)),

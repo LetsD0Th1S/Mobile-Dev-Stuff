@@ -22,7 +22,7 @@ class _NewItemState extends State<NewItem> {
   var _enteredQuantity = 1;
   var _selectedCat = categories[Categories.vegetables]!;
 
-  void _saveItem() {
+  void _saveItem() async {
     // .validate method reaches out to all form widgets and runs through their validator args.
     if (_formKey.currentState!.validate()) {
       // http.get(headers: 'Hi');
@@ -31,7 +31,8 @@ class _NewItemState extends State<NewItem> {
         'flutter-shopping-list-pr-e94b1-default-rtdb.firebaseio.com',
         'shopping-list.json',
       );
-      http.post(
+      final response = await http.post(
+        // benefit of using async functionality -> response can be stored in var
         url,
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
@@ -40,6 +41,15 @@ class _NewItemState extends State<NewItem> {
           'category': _selectedCat.title,
         }),
       );
+
+      print(response.body);
+      print(response.statusCode);
+
+      // Return if context has changed, just return, else the Navigator can pop the current screen
+      if (context.mounted) {
+        return;
+      }
+      Navigator.pop(context);
       // Navigator.of(context).pop(
       //   GroceryItem(
       //     id: DateTime.now().toString(),

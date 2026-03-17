@@ -6,14 +6,14 @@ part 'history_item.g.dart';
 @collection
 class HistoryItem {
   Id id = Isar.autoIncrement;
-  final int leaveCode;
-  final String name;
-  final DateTime submittedDate;
-  final DateTime fromDate;
-  final DateTime toDate;
-  final int numOfDays;
+  late int leaveCode;
+  late String name;
+  late DateTime submittedDate;
+  late DateTime? fromDate;
+  late DateTime? toDate;
+  late int numOfDays;
   @enumerated
-  final SubmitStatus status;
+  late SubmitStatus status;
 
   HistoryItem({
     required this.leaveCode,

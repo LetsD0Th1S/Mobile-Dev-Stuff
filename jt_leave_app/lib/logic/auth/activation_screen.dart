@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jt_leave_app/UI/screens/tabs.dart';
-import 'package:jt_leave_app/providers/firebase_stream_provider.dart';
+import 'package:jt_leave_app/providers/supabase_stream_provider.dart';
 
 class ActivateScreen extends ConsumerWidget {
   const ActivateScreen({super.key});
@@ -26,6 +26,7 @@ class ActivateScreen extends ConsumerWidget {
             children: [
               const Text("please enter your employee number below:"),
               TextField(
+                keyboardType: TextInputType.numberWithOptions(decimal: false),
                 onChanged: (r) {
                   code = r;
                 },

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jt_leave_app/UI/widgets/balance_grid_items_container.dart';
-import 'package:jt_leave_app/providers/firebase_stream_provider.dart';
+import 'package:jt_leave_app/providers/supabase_stream_provider.dart';
 import 'package:intl/intl.dart';
 
 class LeaveList extends ConsumerWidget {
@@ -10,9 +10,9 @@ class LeaveList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final balances = ref.watch(balanceListProvider);
-    final dateFormatter = DateFormat.yMd();
+    // final dateFormatter = DateFormat.yMd();
 
-    // Extracting stream data from firebase provider
+    // Extracting stream data from supabase provider
     return balances.when(
       error: (e, _) => Center(child: Text('Error encountered: \n $e')),
       loading: () => const Center(child: CircularProgressIndicator()),
@@ -46,11 +46,13 @@ class LeaveList extends ConsumerWidget {
               BalanceContainer(
                 color: Colors.white,
                 text: Text(
-                  dateFormatter.format(balances[i].validTo).toString(),
+                  // dateFormatter.format(balances[i].validTo),
+                  balances[i].validTo,
                   textAlign: .center,
                 ),
               ),
             ],
+            const SizedBox(height: 10),
           ],
         );
       },

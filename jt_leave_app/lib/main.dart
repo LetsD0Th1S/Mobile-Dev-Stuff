@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar_community/isar.dart';
 import 'package:jt_leave_app/UI/theme/app_theme.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:jt_leave_app/logic/auth/activation_screen.dart';
 import 'package:jt_leave_app/models/history_item.dart';
+import 'package:jt_leave_app/providers/isar_providers.dart';
 import 'package:path_provider/path_provider.dart';
-import 'firebase_options.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 late Isar isar;
 
@@ -17,29 +16,25 @@ late Isar isar;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (Firebase.apps.isEmpty) {
-    await Firebase.initializeApp(
-      name: "JTLeaveImportTesting",
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  } else {
-    Firebase.app();
-  }
-  // Firebase authentication attempt => try-catch
   try {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: "juliandevss@gmail.com",
-      password: "Pwd123",
+    await Supabase.initialize(
+      url: 'https://hwzvjzpfoeliwtgekbtj.supabase.co',
+      anonKey: 'sb_publishable_pu86-Z2TaYZY2vLAXF2k4w_xBHBxQ9n',
     );
-  } on FirebaseAuthException catch (e) {
-    dev.log('Cannot authorize access to firebase because: $e');
+  } catch (e) {
+    dev.log('Could not initialize: $e');
   }
 
   final dir = await getApplicationDocumentsDirectory();
 
   isar = await Isar.open([HistoryItemSchema], directory: dir.path);
 
-  runApp(ProviderScope(child: const MainApp()));
+  runApp(
+    ProviderScope(
+      overrides: [isarProvider.overrideWithValue(isar)],
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {
