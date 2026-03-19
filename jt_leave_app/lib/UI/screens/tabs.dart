@@ -1,5 +1,3 @@
-import 'dart:developer' as dev;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jt_leave_app/UI/screens/history_screen.dart';
@@ -19,9 +17,9 @@ class TabsScreen extends ConsumerWidget {
     final nameOfEmp = ref.watch(nameProvider);
 
     final screensList = [
-      SubmitScreen(),
-      HomeScreen(theCode: '100', name: nameOfEmp),
-      HistoryScreen(),
+      const SubmitScreen(),
+      BalanceScreen(theCode: '100', name: nameOfEmp),
+      const HistoryScreen(),
     ];
 
     return Scaffold(

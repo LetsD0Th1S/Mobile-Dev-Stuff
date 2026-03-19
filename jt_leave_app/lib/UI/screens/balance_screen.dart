@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:jt_leave_app/UI/widgets/balance_list_headers.dart';
-import 'package:jt_leave_app/UI/widgets/jt_leave_homescreen_container.dart';
+import 'package:jt_leave_app/UI/widgets/balance_screen_header.dart';
 import 'package:jt_leave_app/UI/widgets/leave_list.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key, required this.theCode, required this.name});
+class BalanceScreen extends StatelessWidget {
+  const BalanceScreen({super.key, required this.theCode, required this.name});
 
   final String theCode;
   final String name;
@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const JtLeaveHomescreenContainer(),
+        const BalanceScreenHeader(),
         const SizedBox(height: 10),
         const Text(
           'Welcome,',

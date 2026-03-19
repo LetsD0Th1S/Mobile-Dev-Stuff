@@ -139,7 +139,7 @@ P _historyItemDeserializeProp<P>(
 const _HistoryItemstatusEnumValueMap = {'pending': 0, 'done': 1};
 const _HistoryItemstatusValueEnumMap = {
   0: SubmitStatus.pending,
-  1: SubmitStatus.done,
+  1: SubmitStatus.approved,
 };
 
 Id _historyItemGetId(HistoryItem object) {

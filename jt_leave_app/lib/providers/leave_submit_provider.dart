@@ -1,6 +1,4 @@
-import 'dart:developer' as dev;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jt_leave_app/models/history_item.dart';
 import 'package:jt_leave_app/providers/supabase_stream_provider.dart';
 
 final userIntentProvider = FutureProvider<List<Map<String, dynamic>?>>((

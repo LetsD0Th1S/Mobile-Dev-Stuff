@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jt_leave_app/UI/widgets/balance_grid_items_container.dart';
+import 'package:jt_leave_app/providers/submit_provider.dart';
 import 'package:jt_leave_app/providers/supabase_stream_provider.dart';
-import 'package:intl/intl.dart';
 
 class LeaveList extends ConsumerWidget {
   const LeaveList({super.key});
@@ -10,6 +10,7 @@ class LeaveList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final balances = ref.watch(balanceListProvider);
+    ref.watch(submitAPIProvider);
     // final dateFormatter = DateFormat.yMd();
 
     // Extracting stream data from supabase provider
@@ -22,6 +23,7 @@ class LeaveList extends ConsumerWidget {
         }
 
         return GridView.count(
+          padding: .symmetric(horizontal: 4),
           childAspectRatio: 2,
           scrollDirection: Axis.vertical,
           mainAxisSpacing: 2,
@@ -31,9 +33,12 @@ class LeaveList extends ConsumerWidget {
             for (int i = 0; i < balances.length; i++) ...[
               BalanceContainer(
                 color: Colors.white,
-                text: Text(
-                  balances[i].leaveName.toString(),
-                  textAlign: .center,
+                text: Expanded(
+                  child: Text(
+                    overflow: .visible,
+                    balances[i].leaveName.toString(),
+                    textAlign: .center,
+                  ),
                 ),
               ),
               BalanceContainer(

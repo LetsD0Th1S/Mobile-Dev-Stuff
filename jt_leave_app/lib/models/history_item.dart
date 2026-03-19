@@ -26,4 +26,4 @@ class HistoryItem {
   });
 }
 
-enum SubmitStatus { pending, done }
+enum SubmitStatus { pending, approved }

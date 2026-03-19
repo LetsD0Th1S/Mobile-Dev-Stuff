@@ -13,9 +13,6 @@ dependencies:
   isar_community_flutter_libs:
     version: ^3.3.0
   file_picker: ^10.3.10
-  firebase_admin: ^0.3.1
-  firebase_auth: ^6.1.4
-  firebase_core: ^4.4.0
   flutter:
     sdk: flutter
   flutter_launcher_icons: ^0.14.4
