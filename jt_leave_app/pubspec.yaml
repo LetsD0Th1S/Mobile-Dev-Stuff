@@ -21,6 +21,7 @@ dependencies:
   open_app_file: ^4.0.4
   path_provider: ^2.1.5
   supabase_flutter: ^2.12.0
+  flutter_native_splash: ^2.4.7
 
 dev_dependencies:
   isar_community_generator:
@@ -33,9 +34,17 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - "lib/assets/images/jt_leave_icon_test.png"
+    - "lib/utils/images/jt_leave_icon_test.png"
 
 flutter_icons:
   android: true
   ios: true
-  image_path: "lib/assets/images/jt_leave_icon_test.png"
+  image_path: "lib/utils/images/jt_leave_icon_test.png"
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: lib/utils/images/jt_leave_icon_test.png
+
+  android_12:
+    color: "#ffffff"
+    image: lib/utils/images/jt_leave_icon_test.png
