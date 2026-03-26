@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jt_leave_app/ui/balances/widgets/balance_list_headers.dart';
-import 'package:jt_leave_app/ui/balances/widgets/balance_screen_header.dart';
-import 'package:jt_leave_app/ui/balances/widgets/leave_list.dart';
+import 'package:jt_leave_app/balances/widgets/balance_list_headers.dart';
+import 'package:jt_leave_app/balances/widgets/balance_screen_header.dart';
+import 'package:jt_leave_app/balances/widgets/leave_list.dart';
 
 class BalanceScreen extends StatelessWidget {
   const BalanceScreen({super.key, required this.theCode, required this.name});
@@ -45,9 +45,9 @@ class BalanceScreen extends StatelessWidget {
         Expanded(
           child: Container(
             margin: .all(8),
-            padding: .only(left: 8, right: 8, bottom: 20),
+            padding: .only(left: 8, right: 8, bottom: 14),
             decoration: BoxDecoration(
-              borderRadius: const .all(.circular(25)),
+              borderRadius: const .all(.circular(12)),
               color: Theme.of(
                 context,
               ).colorScheme.primaryContainer.withAlpha(200),

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar_community/isar.dart';
-import 'package:jt_leave_app/ui/history_results/models/history_item.dart';
+import 'package:jt_leave_app/history_results/models/history_item.dart';
 import 'package:jt_leave_app/data/repositories/isar_repo.dart';
 import 'package:jt_leave_app/data/providers/leave_submit_provider.dart';
 import 'package:jt_leave_app/data/providers/api_submit_provider.dart';

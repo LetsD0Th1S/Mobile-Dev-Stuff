@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jt_leave_app/data/providers/api_submit_provider.dart';
 import 'package:jt_leave_app/data/providers/supabase_stream_provider.dart';
-import 'package:jt_leave_app/ui/balances/widgets/balance_container.dart';
+import 'package:jt_leave_app/balances/widgets/balance_container.dart';
 
 class LeaveList extends ConsumerWidget {
   const LeaveList({super.key});

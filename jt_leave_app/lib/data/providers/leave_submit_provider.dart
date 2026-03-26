@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jt_leave_app/data/providers/supabase_stream_provider.dart';
-import 'package:jt_leave_app/ui/history_results/models/history_item.dart';
+import 'package:jt_leave_app/history_results/models/history_item.dart';
 
 final userIntentProvider = FutureProvider<List<Map<String, dynamic>?>>((
   ref,
@@ -61,6 +61,7 @@ class SubmitProvider extends Notifier<Map<String, dynamic>> {
       'start': item.fromDate,
       'end': item.toDate,
       'leaveDays': item.numOfDays,
+      'status': item.status,
     };
   }
 }

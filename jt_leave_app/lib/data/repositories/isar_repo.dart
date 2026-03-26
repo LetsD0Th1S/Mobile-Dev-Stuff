@@ -1,5 +1,5 @@
 import 'package:isar_community/isar.dart';
-import 'package:jt_leave_app/ui/history_results/models/history_item.dart';
+import 'package:jt_leave_app/history_results/models/history_item.dart';
 
 class HistoryRepo {
   final Isar isar;

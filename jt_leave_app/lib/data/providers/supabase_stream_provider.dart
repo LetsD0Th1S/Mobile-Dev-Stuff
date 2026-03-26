@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jt_leave_app/ui/balances/models/balance_item.dart';
+import 'package:jt_leave_app/balances/models/balance_item.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final activateCodeProvider = NotifierProvider<ActivateProvider, String>(

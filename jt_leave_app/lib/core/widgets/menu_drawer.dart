@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jt_leave_app/data/providers/api_submit_provider.dart';
 import 'package:jt_leave_app/data/providers/isar_providers.dart';
-import 'package:jt_leave_app/ui/core/theme/theme_change_provider.dart';
+import 'package:jt_leave_app/core/theme/theme_change_provider.dart';
 
 class MenuDrawer extends ConsumerWidget {
   const MenuDrawer({super.key});

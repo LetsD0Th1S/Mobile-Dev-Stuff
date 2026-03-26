@@ -1,55 +1,16 @@
 import 'dart:developer' as dev;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
-import 'package:jt_leave_app/data/providers/api_submit_provider.dart';
+import 'package:jt_leave_app/core/shared/formatter_function.dart';
 import 'package:jt_leave_app/data/providers/isar_providers.dart';
-import 'package:jt_leave_app/data/providers/leave_submit_provider.dart';
-import 'package:jt_leave_app/ui/history_results/models/history_item.dart';
-import 'package:jt_leave_app/ui/history_results/widgets/history_text.dart';
+import 'package:jt_leave_app/history_results/components/remove_history_item_function.dart';
+import 'package:jt_leave_app/history_results/widgets/history_text.dart';
 
 class HistoryScreen extends ConsumerWidget {
   const HistoryScreen({super.key});
 
-  Future<void> removeItem(
-    BuildContext context,
-    WidgetRef ref,
-    HistoryItem item,
-  ) async {
-    final tempItem = item;
-    final submitter = ref.read(submitProvider.notifier);
-
-    try {
-      await ref.read(submitActionProvider.notifier).remove(item.id);
-      await ref.read(submitAPIProvider.notifier).removeItem(item.id);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('${item.name} removed successfully'),
-          action: SnackBarAction(
-            label: 'Undo',
-            onPressed: () {
-              submitter.setAll(tempItem);
-              ref.read(submitActionProvider.notifier).submit();
-            },
-          ),
-          duration: const Duration(seconds: 3),
-          persist: false,
-        ),
-      );
-    } catch (e) {
-      await showDialog(
-        context: context,
-        builder: (e) =>
-            Dialog(child: Center(child: Text("Couldn't remove due to: $e"))),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final formatter = DateFormat('yyyy-MM-dd');
     final history = ref.watch(historyListProvider);
     ref.watch(historyRemoveProvider);
 
@@ -98,11 +59,11 @@ class HistoryScreen extends ConsumerWidget {
                           children: [
                             HistoryText(
                               prefix: 'From: ',
-                              text: formatter.format(item.fromDate!),
+                              text: formatDate(item.fromDate!),
                             ),
                             HistoryText(
                               prefix: 'To: ',
-                              text: formatter.format(item.toDate!),
+                              text: formatDate(item.toDate!),
                             ),
                           ],
                         ),
@@ -117,9 +78,7 @@ class HistoryScreen extends ConsumerWidget {
                             ),
                             HistoryText(
                               prefix: 'Submitted: ',
-                              text: formatter
-                                  .format(item.submittedDate)
-                                  .toString(),
+                              text: formatDate(item.submittedDate),
                             ),
                           ],
                         ),

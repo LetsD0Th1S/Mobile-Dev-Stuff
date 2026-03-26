@@ -1,7 +1,7 @@
 import 'dart:developer' as dev;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jt_leave_app/ui/history_results/models/history_item.dart';
+import 'package:jt_leave_app/history_results/models/history_item.dart';
 import 'package:jt_leave_app/data/repositories/supabase_item.dart';
 import 'package:jt_leave_app/data/providers/supabase_stream_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

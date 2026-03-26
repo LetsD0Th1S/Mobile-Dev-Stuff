@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar_community/isar.dart';
 import 'package:jt_leave_app/data/providers/isar_providers.dart';
-import 'package:jt_leave_app/ui/core/theme/app_theme.dart';
-import 'package:jt_leave_app/ui/core/theme/theme_change_provider.dart';
+import 'package:jt_leave_app/core/theme/app_theme.dart';
+import 'package:jt_leave_app/core/theme/theme_change_provider.dart';
 import 'package:jt_leave_app/data/auth/activation_screen.dart';
-import 'package:jt_leave_app/ui/history_results/models/history_item.dart';
+import 'package:jt_leave_app/history_results/models/history_item.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -23,7 +23,7 @@ void main() async {
       anonKey: 'sb_publishable_pu86-Z2TaYZY2vLAXF2k4w_xBHBxQ9n',
     );
   } catch (e) {
-    dev.log('Could not initialize: $e');
+    dev.log('Could not initialize Supabase: $e');
   }
 
   final dir = await getApplicationDocumentsDirectory();

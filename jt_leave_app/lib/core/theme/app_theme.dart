@@ -14,9 +14,11 @@ final kthemeScheme = ThemeData(fontFamily: 'Arial').copyWith(
   scaffoldBackgroundColor: Colors.white,
   navigationBarTheme: NavigationBarThemeData().copyWith(
     backgroundColor: Colors.transparent,
-    labelTextStyle: WidgetStateProperty.all(
-      const TextStyle(color: Colors.grey),
-    ),
+    labelTextStyle:
+        const WidgetStateProperty.fromMap(<WidgetStatesConstraint, TextStyle>{
+          WidgetState.selected: TextStyle(color: Colors.black),
+          WidgetState.any: TextStyle(color: Color.fromARGB(255, 149, 148, 148)),
+        }),
   ),
   primaryColor: Color.fromARGB(255, 240, 240, 240),
   appBarTheme: AppBarThemeData().copyWith(
@@ -25,30 +27,32 @@ final kthemeScheme = ThemeData(fontFamily: 'Arial').copyWith(
     elevation: 4.0, // Adds shadow elevation ; must be greater than 0
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ButtonStyle(
+    style: const ButtonStyle(
       backgroundColor: WidgetStatePropertyAll(Colors.green),
       foregroundColor: WidgetStatePropertyAll(Colors.white),
     ),
   ),
   textTheme: TextTheme().copyWith(
-    bodyLarge: TextStyle(
-      fontWeight: FontWeight.bold,
+    bodyLarge: const TextStyle(
+      fontWeight: .bold,
       fontSize: 18,
       color: Colors.black,
     ),
-    titleLarge: TextStyle(
+    titleLarge: const TextStyle(
       fontSize: 24,
-      color: const Color.fromARGB(255, 77, 76, 76),
-      fontWeight: FontWeight.bold,
+      color: .fromARGB(255, 77, 76, 76),
+      fontWeight: .bold,
     ),
-    bodyMedium: TextStyle(
-      fontWeight: FontWeight.normal,
+    bodyMedium: const TextStyle(
+      fontWeight: .normal,
       fontSize: 14,
       color: Colors.black,
     ),
-    bodySmall: TextStyle(fontWeight: FontWeight.normal, fontSize: 14),
+    bodySmall: const TextStyle(fontWeight: .normal, fontSize: 14),
   ),
-  cardTheme: CardThemeData().copyWith(color: .fromARGB(255, 115, 248, 115)),
+  cardTheme: CardThemeData().copyWith(
+    color: const .fromARGB(255, 115, 248, 115),
+  ),
 );
 
 // Dark mode theme varialble ---------------------------------------
@@ -63,8 +67,11 @@ final kDarkThemeScheme = ThemeData(fontFamily: 'Arial').copyWith(
   scaffoldBackgroundColor: const Color.fromARGB(255, 51, 49, 49),
   navigationBarTheme: NavigationBarThemeData().copyWith(
     backgroundColor: Colors.transparent,
-    labelTextStyle: WidgetStateProperty.all(
-      const TextStyle(color: Color.fromARGB(255, 240, 239, 239)),
+    labelTextStyle: const WidgetStateProperty.fromMap(
+      <WidgetStatesConstraint, TextStyle>{
+        WidgetState.selected: TextStyle(color: Colors.white, fontWeight: .bold),
+        WidgetState.any: TextStyle(color: Color.fromARGB(255, 240, 239, 239)),
+      },
     ),
   ),
   primaryColor: const Color.fromARGB(255, 67, 67, 67),
